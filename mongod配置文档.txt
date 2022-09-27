@@ -1,0 +1,70 @@
+windows:
+e:
+cd\eplugger\mongod\bin
+
+mongod --bind_ip 0.0.0.0 --dbpath "D:\mongod\data" --logpath "D:\mongod\data\logs\mongod.log" --install --auth --serviceName "MongoDB"
+
+net start MongoDB
+
+# 登录mongo
+mongo
+# 切换到admin
+use admin
+# 创建管理员用户
+db.createUser({user:"root",pwd:"eplugger",roles:[{role:"root",db:"admin"}]});
+# 管理员登录
+db.auth("root","eplugger");
+# 切换到V8库中
+use RDSYSEDUV8
+# 创建V8访问的普通用户
+db.createUser({user:"root",pwd:"eplugger",roles:[{role:"readWrite",db:"RDSYSEDUV8"}]});
+_____________________________________________________________________________________________________________________________________________________________
+linux:
+根据版本下载MongoDB安装包
+https://www.mongodb.com/download-center/community
+
+vim /etc/profile
+#mongodb
+export PATH=$PATH:/home/mongodb/bin
+
+tar zxvf mongodb-linux-x86_64-ubuntu1604-4.2.3.tgz -C /Home
+修改/home目录下的文件夹名称为mongodb
+
+cd mongodb
+mkdir data
+mkdir logs
+cd logs/
+touch mongo.log
+
+cd /home/mongodb/bin
+vim mongo.conf
+dbpath=/home/mongodb/data
+logpath=/home/mongodb/logs/mongo.log
+logappend=true
+journal=true
+quiet=true
+port=27017
+fork=true #后台运行
+bind_ip=0.0.0.0 #允许任何IP进行连接
+
+./mongod  -f  mongo.conf
+
+cd  /home/mongodb/bin
+
+# 登录mongo
+mongo
+# 切换到admin
+use admin
+# 创建管理员用户
+db.createUser({user:"root",pwd:"eplugger",roles:[{role:"root",db:"admin"}]});
+# 管理员登录
+db.auth("root","eplugger");
+# 切换到V8库中
+use RDSYSEDUV8
+# 创建V8访问的普通用户
+db.createUser({user:"root",pwd:"eplugger",roles:[{role:"readWrite",db:"RDSYSEDUV8"}]});
+
+
+mongod?‐‐dbpath?"D:\mongodb\data"?‐‐logpath
+"D:\mongodb\data\logs\mongod.log"?‐‐install?‐‐auth
+‐‐serviceName?"MongoDB"
