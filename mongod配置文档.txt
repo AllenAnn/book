@@ -1,4 +1,4 @@
-windows:
+windows:111
 e:
 cd\eplugger\mongod\bin
 
